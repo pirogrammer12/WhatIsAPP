@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif !important;
+}
+
+a{
+    text-decoration: none ;
+}
+
+body {
+    min-height: 100vh;
+    width: 100vw;
+    background: linear-gradient(to right, black, rgb(2, 81, 95), black);
+    background-size: 200% 200%;
+    animation: moving-gradient 8s linear infinite;
+    /* background: linear-gradient(to right, black, rgb(2, 81, 95), black); */
+    color: white;
+    overflow: hidden !important;
+}
+
+.container {
+    margin: 8% 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container .summary{
+    margin: 40px 0;
+    font-size: large;
+    max-width: 60%;
+}
+
+.join-chat-2{
+    padding: 10px;
+    border: none;
+    outline: none;
+    background: linear-gradient(to right, red, blue);
+    background-size: 200% 200%;
+    animation: moving-gradient 8s linear infinite;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    font-size: larger;
+}
+
+.join-chat-2:hover{
+    outline: 1px solid black;
+    transition: outline ease-in 0s 10ms;
+
+}
+
+.greet{
+    max-width: 60%;
+}
+
+@keyframes moving-gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+      }
+  }
+
+@media (max-width: 568px) {
+    .ham-burger {
+        display: flex;
+    }
+
+    .wrapper {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 20px;
+    }
+
+    .navbar {
+        display: none;
+    }
+
+    .join-button {
+        display: none;
+    }
+}

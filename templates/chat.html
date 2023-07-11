@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="style.css">
+    <title>WhatIsAPP - By Pirogrammer</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 75vh;
+            width: 100vw;
+            /* margin: 20px 0; */
+        }
+
+        main * {
+            margin: 10px 0;
+        }
+
+        footer {
+            display: flex;
+            flex-direction: row;
+            height: 60px;
+            width: 80vw;
+            position: absolute;
+            bottom: 0;
+        }
+
+        ul {
+            background: transparent;
+            width: 70%;
+            min-height: 100%;
+            max-height: 100%;
+            list-style-type: none;
+        }
+
+        ul li {
+            position: relative;
+            /* left: 40rem; */
+        }
+
+        footer button {
+            padding: 2px 20px;
+        }
+
+        input {
+            padding: 5px 20px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="">
+        <div class="wrapper">
+            <a class="logo-link">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round"
+                    stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
+                    viewBox="0 0 24 24">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                </svg>
+                <span class="website-name">WhatsApp</span>
+            </a>
+            <nav class="navbar">
+                <a href="/" class="link">Home</a>
+                <a href="/about" class="link">About</a>
+                <a href="/contact" class="link">Contact</a>
+            </nav>
+            <button class="join-button">Join Chat</button>
+            <div class="menu">
+                <div class="ham-nav">
+                    <a href="/" class="home-link">Home</a>
+                    <a href="/about" class="about-link">About</a>
+                    <a href="/contact" class="contact-link">Contact</a>
+                    <button class="join-chat">Join Chat</button>
+                </div>
+            </div>
+            <div class="ham-burger">
+                <img src="./images/hamburger.png" alt="More items">
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <main>
+            <h1>Start Chatting!</h1>
+            <ul id="messages"></ul>
+            <footer>
+                <input type="text" id="message" placeholder="Type a message..." />
+                <button onclick="sendMessage()">Send</button>
+            </footer>
+        </main>
+        <script defer>
+            const username = prompt("Enter username to join with")
+            const socket = io('http://localhost:3000'); // Connect to the server
+
+            socket.on('connect', () => {
+                console.log("A user joined")
+            });
+
+            socket.on('userJoined', (username) => {
+                const messageContainer = document.getElementById('messages');
+                const newMessage = document.createElement('li');
+                newMessage.textContent = username + " joined the Chat!";
+                messageContainer.appendChild(newMessage);
+            })
+
+            socket.on('message', (message) => {
+                const messageContainer = document.getElementById('messages');
+                if (message === "") {
+
+                }
+                else {
+                    const newMessage = document.createElement('li');
+                    // newMessage.style.left = "48rem"
+                    newMessage.textContent = message;
+                    messageContainer.appendChild(newMessage);
+
+                }
+            });
+
+            socket.on('disconnect', (username) => {
+                const messageContainer = document.getElementById('messages');
+                const newMessage = document.createElement('li');
+                newMessage.textContent = username + " left the Chat :(";
+                messageContainer.appendChild(newMessage);
+            })
+
+            function sendMessage() {
+                const messageInput = document.getElementById('message');
+                const message = messageInput.value;
+
+                socket.emit('message', username + ": " + message);
+                messageInput.value = '';
+
+            }
+
+            document.querySelector('input').addEventListener('keydown', (event) => {
+                if (event.key === "Enter") {
+                    sendMessage()
+                }
+            });
+
+        </script>
+</body>
+
+</html>
